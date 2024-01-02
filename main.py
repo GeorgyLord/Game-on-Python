@@ -43,7 +43,7 @@ class Player():
         self.pos += pygame.math.Vector2(self.velocity_x, self.velocity_y)
     def interface(self):
         f = pygame.font.SysFont('Verdana', 20)
-        n1 = f.render(f'X: {round(self.pos[0])} Y: {round(self.pos[1])}aa', True, (255, 255, 255))
+        n1 = f.render(f'X: {round(self.pos[0])} Y: {round(self.pos[1])}', True, (255, 255, 255))
         screen.blit(n1, (5, 5))
     def update(self):
         self.input()
@@ -56,18 +56,23 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("It is my game")
 clock = pygame.time.Clock()
 
-background0 = pygame.transform.scale(pygame.image.load("water.jpg").convert(), (256, 256))
-background1 = pygame.transform.scale(pygame.image.load("grass.jpg").convert(), (256, 256))
-background2 = pygame.transform.scale(pygame.image.load("sand.jpg").convert(), (256, 256))
+size_image = 100
+background0 = pygame.transform.scale(pygame.image.load("water.jpg").convert(), (size_image, size_image))
+background1 = pygame.transform.scale(pygame.image.load("grass.jpg").convert(), (size_image, size_image))
+background2 = pygame.transform.scale(pygame.image.load("sand.jpg").convert(), (size_image, size_image))
+background3 = pygame.transform.scale(pygame.image.load("earth.jpg").convert(), (size_image, size_image))
+background4 = pygame.transform.scale(pygame.image.load("stone.jpg").convert(), (size_image, size_image))
+background5 = pygame.transform.scale(pygame.image.load("diamond.jpg").convert(), (size_image, size_image))
+textures = [background0, background1, background2, background3, background4, background5]
 p = Player()
 map = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+    [0, 3, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 4, 3, 4, 0, 3, 0, 0, 0],
+    [0, 0, 2, 3, 5, 2, 2, 3, 0, 0],
+    [1, 2, 2, 1, 4, 2, 1, 3, 0, 0],
     [0, 0, 2, 2, 2, 2, 2, 2, 0, 0],
-    [1, 2, 2, 1, 2, 2, 1, 2, 0, 0],
-    [0, 0, 2, 2, 2, 2, 2, 2, 0, 0],
-    [0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 1, 0, 0, 0, 3, 4, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 ]
@@ -80,11 +85,6 @@ while True:
             pygame.quit()
     for i in range(len(map)):
         for j in range(len(map[0])):
-            bg = background0
-            if map[i][j] == 1:
-                bg = background1
-            elif map[i][j] == 2:
-                bg = background2
-            screen.blit(bg, (positionx(i*256), positiony(j*256)))
+            screen.blit(textures[map[i][j]], (positionx(i*size_image), positiony(j*size_image)))
     p.update()
     pygame.display.flip()
